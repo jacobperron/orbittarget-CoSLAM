@@ -1,0 +1,54 @@
+# simple.world - basic world file example
+# Authors: Richard Vaughan
+
+include "chatterbox.inc"
+
+# time to pause (in GUI mode) or quit (in headless mode (-g)) the simulation
+quit_time 3600 # 1 hour of simulated time
+
+paused 1
+
+# spatial resolution of the underlying occupancy grid. Default is 0.02m.
+resolution 0.02
+
+# set the multiple of real time that Stage should try to achieve. Default is 1. 
+# set to 0 to go as fast as possible.
+speedup 1.000
+
+# configure the GUI window
+window
+(
+  size [ 635 666 ] # in pixels
+  scale 116.106   # pixels per meter
+  center [ 1.535  0.052 ]
+  rotate [ 0.000  -0.500 ]
+  			
+  show_data 1              # 1=on 0=off
+)
+
+define cbtarget chatterbox
+(
+  name "target"
+)
+
+define cb1 chatterbox
+(
+  name "cb1"
+  ctrl "../orbittarget cb2 cb1" #provide name of neighbour and self
+)
+define cb2 chatterbox
+(
+  name "cb2"
+  ctrl "../orbittarget cb3 cb2" 
+)
+define cb3 chatterbox
+(
+  name "cb3"
+  ctrl "../orbittarget cb2 cb3" 
+)
+
+cbtarget(pose [ 1.500 0.500 0.000 180.000 ] )
+cb1( pose [ 2 -1.5 0.000 0.000 ] )
+cb2( pose [ 1 -1.5 0.000 0.000 ] )
+cb3( pose [ 0 -1.5 0.000 0.000 ] )
+
